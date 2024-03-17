@@ -11,48 +11,55 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import axios from 'axios';
 
 export default function DialogDemo() {
-  const [name, setName] = useState("Pedro Duarte");
-  const [username, setUsername] = useState("@peduarte");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleSubmit = () => {
-    const userData = { name, username };
-    console.log(userData);
-  };
+    const userData = { title, description };
+    axios.post('http://127.0.0.1:8000/api/addpost/', userData)
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+};
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
+        <Button className="w-[10vw] h-[3vw] rounded-[35px]">Write Post</Button>
       </DialogTrigger>
       <DialogContent className="w-[70%]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>Ask Question</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
+           Write your Question
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Name
+              Title
             </Label>
             <Input
               id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               className="col-span-3"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="username" className="text-right">
-              Username
+              Description
             </Label>
             <Input
               id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               className="col-span-3"
             />
           </div>
