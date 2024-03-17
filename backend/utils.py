@@ -1,6 +1,12 @@
+from dotenv import load_dotenv
+import os
 import pymongo
 
-url = "mongodb+srv://chikukumar1967:elBC2XY1rqta55rl@cluster0.nqnjynf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-client = pymongo.MongoClient(url)
+# Load environment variables from .env file
+load_dotenv()
+
+# Get the MongoDB URL from the environment variables
+mongodb_url = os.getenv('MONGODB_URL')
+client = pymongo.MongoClient(mongodb_url)
 
 db = client['stackdb']
